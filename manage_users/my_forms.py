@@ -19,7 +19,3 @@ class SignupForm(forms.Form):
                                widget=forms.PasswordInput(attrs={'class': 'form-control'}))
     cnfm_pwd = forms.CharField(label='Confirm Password', max_length=20,
                                widget=forms.PasswordInput(attrs={'class': 'form-control'}))
-
-
-class QuoteForm(forms.Form):
-    pass

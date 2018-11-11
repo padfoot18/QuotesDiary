@@ -2,12 +2,25 @@ from django.shortcuts import render
 from django.views.generic import CreateView, DeleteView, UpdateView
 from manage_quotes.models import Quote
 from manage_users.models import User
+from django.forms import ModelForm, Textarea, TextInput, Select
+
+
+class QuoteForm(ModelForm):
+    class Meta:
+        model = Quote
+        fields = ['body', 'person', 'place', 'category']
+        widgets = {
+            'body': Textarea(attrs={'class': 'form-control', 'rows': '5'}),
+            'person': TextInput(attrs={'class': 'form-control'}),
+            'place': TextInput(attrs={'class': 'form-control'}),
+            'category': Select(attrs={'class': 'form-control'}),
+        }
 
 
 class AddQuote(CreateView):
     model = Quote
-    fields = ['body', 'person', 'place', 'category', ]
     success_url = '/view/all'
+    form_class = QuoteForm
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -25,8 +38,9 @@ class DeleteQuote(DeleteView):
 
 
 class EditQuote(UpdateView):
+    form_class = QuoteForm
     model = Quote
-    fields = ['body', 'person', 'place', 'category', ]
+    template_name = 'manage_quotes/quote_form.html'
     success_url = '/view/all'
 
     def get_context_data(self, **kwargs):
