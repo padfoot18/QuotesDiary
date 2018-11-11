@@ -4,18 +4,16 @@
     <div class="row">
         <div class="col-sm-2" id="side-col">
             <nav class="nav nav-pills flex-column bg-light" id="side-nav">
-              <a class="nav-link active" href="/view/all" id="side-nav-link">All Quotes</a>
-              <a class="nav-link" href="/view/mv" id="side-nav-link">Movie</a>
-              <a class="nav-link" href="/view/bk" id="side-nav-link">Books</a>
-              <a class="nav-link" href="/view/tv" id="side-nav-link">Tv Series</a>
-              <a class="nav-link" href="/view/rl" id="side-nav-link">Real Life</a>
-              <a class="nav-link" href="/view/ot" id="side-nav-link">Other</a>
+              <a class="nav-link {% if request.path == '/view/all/' %} active {% endif %}" href="/view/all" id="side-nav-link">All Quotes</a>
+              <a class="nav-link {% if request.path == '/view/mv/' %} active {% endif %}" href="/view/mv" id="side-nav-link">Movie</a>
+              <a class="nav-link {% if request.path == '/view/bk/' %} active {% endif %}" href="/view/bk" id="side-nav-link">Books</a>
+              <a class="nav-link {% if request.path == '/view/tv/' %} active {% endif %}" href="/view/tv" id="side-nav-link">Tv Series</a>
+              <a class="nav-link {% if request.path == '/view/rl/' %} active {% endif %}" href="/view/rl" id="side-nav-link">Real Life</a>
+              <a class="nav-link {% if request.path == '/view/ot/' %} active {% endif %}" href="/view/ot" id="side-nav-link">Other</a>
             </nav>
         </div>
         <div class="col-sm-10">
-        <div id="search-div">
-            <!-- search bar with drop down -->
-        </div>
+            {% include 'searchbar.html' %}
         <div id="quotes">
             <ul class="list-unstyled">
             {% load static %}

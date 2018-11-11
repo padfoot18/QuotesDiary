@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views.generic import ListView
 from manage_quotes.models import Quote
+from django.http import JsonResponse
 
 
 def check(request):
@@ -25,13 +26,21 @@ class QuotesList(ListView):
             return Quote.objects.filter(fk_usr_id=self.fk_user,
                                         category__iexact=self.category).order_by('-create_time', '-id')
 
-
-"""
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        if 'page' in self.request.GET:
-            curr = int(self.request.GET['page'])
-            if curr > 4:
-                context['my_page_range'] = [x for x in range(curr-3, curr+4)]
+        context['js_files'] = ['js/search_bar.js']
         return context
-"""
+
+
+def search_results(request):
+    search_text = request.GET.get('search_text', None)
+    body_res = list(Quote.objects.filter(body__contains=search_text).values_list('body', flat=True).distinct().order_by('body')[:5])
+    person_res = list(Quote.objects.filter(person__contains=search_text).values_list('person', flat=True).distinct().order_by('person')[:5])
+    place_res = list(Quote.objects.filter(place__contains=search_text).values_list('place', flat=True).distinct().order_by('place')[:5])
+
+    body_res = [x[:40] for x in body_res]
+    data = {'quote': body_res,
+            'person': person_res,
+            'place': place_res}
+    print(data)
+    return JsonResponse(data)

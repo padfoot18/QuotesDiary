@@ -1,0 +1,14 @@
+<div id="search-area">
+<form class="form-inline" method="post" autocomplete="off" action="/search/">
+    {% csrf_token %}
+    <input class="form-control mt-2 mr-sm-2" type="search" data-toggle="dropdown" placeholder="Search"
+           aria-label="Search" id="search-bar" style="width: 500px;">
+    <div class="dropdown-menu" style="display: none">
+      <h6 class="dropdown-header" id="quote-header">Quotes</h6>
+      <h6 class="dropdown-header" id="person-header">Person</h6>
+      <h6 class="dropdown-header" id="place-header">Place</h6>
+      <!--button class="dropdown-item" type="button" onclick="fill_search(this.innerHTML)">Action</button-->
+    </div>
+    <button class="btn btn-default mt-2 mr-sm-2" type="submit">Search</button>
+</form>
+</div>
