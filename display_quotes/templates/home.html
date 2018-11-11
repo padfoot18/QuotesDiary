@@ -1,0 +1,95 @@
+{% extends 'index.html' %}
+{% block content %}
+    <div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-2" id="side-col">
+            <nav class="nav nav-pills flex-column bg-light" id="side-nav">
+              <a class="nav-link active" href="/view/all" id="side-nav-link">All Quotes</a>
+              <a class="nav-link" href="/view/mv" id="side-nav-link">Movie</a>
+              <a class="nav-link" href="/view/bk" id="side-nav-link">Books</a>
+              <a class="nav-link" href="/view/tv" id="side-nav-link">Tv Series</a>
+              <a class="nav-link" href="/view/rl" id="side-nav-link">Real Life</a>
+              <a class="nav-link" href="/view/ot" id="side-nav-link">Other</a>
+            </nav>
+        </div>
+        <div class="col-sm-10">
+        <div id="search-div">
+            <!-- search bar with drop down -->
+        </div>
+        <div id="quotes">
+            <ul class="list-unstyled">
+            {% load static %}
+            {% for quote in quote_list %}
+                <li class="media">
+                <img class="mr-3" src="{% static "img/quotation_mark.png" %}" alt="Quotation mark img" height="64px">
+                    <div class="media-body">
+                        <h4>{{ quote.body }}</h4>
+                        {% if quote.person %}
+                        <div>
+                            -{{ quote.person }}
+                            <span id="place">{% if quote.place %}({{ quote.place }}) {% endif %}</span>
+                        </div>
+                        {% endif %}
+                    <div style="float: right">
+                        <a href="/quote/edit/{{ quote.id }}"><span class="fa fa-edit"></span></a>
+                        <a href="/quote/delete/{{ quote.id }}"><span class="fa fa-remove"></span></a>
+                    </div>
+                    </div>
+                </li>
+            {% endfor %}
+            </ul>
+        </div>
+
+        {% if is_paginated %}
+        <nav aria-label="Page navigation">
+          <ul class="pagination">
+          {% if page_obj.has_previous %}
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
+              {% comment %}{% if page_obj.number > 4 %}
+                  <li class="page-item"><a class="page-link" href="?page=1">1</a></li>
+                  <li class="page-item"><span class="page-link">...</span></li>
+              {% endif %}{% endcomment %}
+          {% else %}
+            <li class="page-item disabled"><span class="page-link">Previous</span></li>
+          {% endif %}
+
+          {% comment %}{% if page_obj.number > 4 or page_obj.number < paginator.num_pages|add:"-4" %}
+              {% for i in my_page_range %}
+                  <li class="page-item {% if i == page_obj.number %}active{% endif %}">
+                      <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+                  </li>
+              {% endfor %}
+          {% else %}
+              {% for i in paginator.page_range %}
+                  <li class="page-item {% if i == page_obj.number %}active{% endif %}">
+                      <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+                  </li>
+              {% endfor %}
+          {% endif %}{% endcomment %}
+
+          {% for i in paginator.page_range %}
+                  <li class="page-item {% if i == page_obj.number %}active{% endif %}">
+                      <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+                  </li>
+              {% endfor %}
+
+          {% if page_obj.has_next %}
+              {% comment %}{% if page_obj.number < paginator.num_pages|add:"-4"  %}
+                  <li class="page-item"><span class="page-link">...</span></li>
+                  <li class="page-item">
+                      <a class="page-link" href="?page={{ paginator.num_pages }}">{{ paginator.num_pages }}</a>
+                  </li>
+              {% endif %}{% endcomment %}
+            <li class="page-item">
+              <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">Next</a>
+            </li>
+          {% else %}
+            <li class="page-item disabled"><span class="page-link">Next</span></li>
+          {% endif %}
+          </ul>
+        </nav>
+        {% endif %}
+        </div>
+    </div>
+    </div>
+{% endblock %}

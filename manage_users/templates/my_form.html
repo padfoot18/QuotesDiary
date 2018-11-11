@@ -1,0 +1,19 @@
+{% extends 'index.html' %}
+{% block content %}
+    <div class="container-fluid" id="my-form">
+    <h2 style="text-align: center">Please {{ type }} to continue</h2>
+    <form method="post">
+      <div class="form-group">
+          {% csrf_token %}
+          {{ form }}
+          {% if type == 'login' %}
+              <button type="submit" class="btn btn-primary">Login</button>
+              <button class="btn btn-default"><a href="/user/signup">Sign up</a></button>
+          {% elif type == 'signup' %}
+              <button type="submit" class="btn btn-primary">Signup</button>
+              <button class="btn btn-default"><a href="/user/login">Login</a></button>
+          {% endif %}
+      </div>
+    </form>
+    </div>
+{%  endblock %}

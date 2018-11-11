@@ -1,0 +1,11 @@
+{% extends 'index.html' %}
+{% block content %}
+    <div class="container-fluid" id="my-form">
+        <form method="post">
+        <div class="form-group">
+            {% csrf_token %}
+            {{ form.as_p }}
+        </div>
+    <input type="submit" value="Save" class="btn btn-primary">
+</form>
+{% endblock %}
