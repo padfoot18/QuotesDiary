@@ -43,7 +43,8 @@ $("#search-bar").keyup(function () {
                 else{
                     $("#place-header").remove();
                 }
-
+                if(data.place.length===0 && data.quote.length===0 && data.person.length===0)
+                    $(".dropdown-menu").css({"display": "None"});
             }
         });
     }
