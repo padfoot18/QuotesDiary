@@ -1,0 +1,14 @@
+{% extends 'index.html' %}
+{% block content %}
+    <div class="container-fluid" id="my-form">
+    <h2 style="text-align: center">Please Login to continue</h2>
+    <form method="post">
+      <div class="form-group">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <button type="submit" class="btn btn-primary">Login</button>
+          <p><a href="{% url 'password_reset' %}">Forgot Password</a></p>
+      </div>
+    </form>
+    </div>
+{%  endblock %}

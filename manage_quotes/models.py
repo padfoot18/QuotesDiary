@@ -1,4 +1,7 @@
 from django.db import models
+from django.conf import settings
+
+User = settings.AUTH_USER_MODEL
 
 
 class Quote(models.Model):
@@ -18,5 +21,5 @@ class Quote(models.Model):
     person = models.CharField(max_length=40, blank=True)
     place = models.CharField(max_length=40, blank=True)
     category = models.CharField(max_length=20, choices=category_choices)
-    fk_usr = models.ForeignKey(to='manage_users.User', on_delete=models.CASCADE)
+    fk_usr = models.ForeignKey(User,  on_delete=models.CASCADE)
     create_time = models.DateField(auto_now_add=True)

@@ -1,16 +1,16 @@
 <nav class="navbar navbar-dark navbar-expand-lg bg-dark justify-content-between">
-  <a class="navbar-brand" href="/">Quotes Diary</a>
+  <a class="navbar-brand" href="{% url 'view' 'all' %}">Quotes Diary</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
           aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="fa fa-bars" style="color: gray;"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      {% if request.session.username %}
-          <a class="nav-link" href="/user/logout/">Logout</a>
-          <a class="nav-link" href="/quote/add/">Add new</a>
+      {% if request.user.is_authenticated %}
+          <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+          <a class="nav-link" href="{% url 'add' %}">Add new</a>
       {% else %}
-          <a class="nav-link" href="/user/login/">Login</a>
-          <a class="nav-link" href="/user/signup/">Sign up</a>
+          <a class="nav-link" href="{% url 'login' %}">Login</a>
+          <a class="nav-link" href="{% url 'signup' %}">Sign up</a>
       {% endif %}
   </div>
 </nav>

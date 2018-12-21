@@ -1,6 +1,5 @@
 from django.urls import path
 from manage_quotes import views
-from manage_quotes.models import Quote
 
 
 urlpatterns = [

@@ -3,29 +3,25 @@ from django.views.generic import ListView
 from manage_quotes.models import Quote
 from django.http import JsonResponse
 from django.db.models import Q
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse_lazy
 
 
-def check(request):
-    if 'username' in request.session:
-        return redirect('view/all')
-    else:
-        return redirect('/user/login')
-
-
-class QuotesList(ListView):
+class QuotesList(ListView, LoginRequiredMixin):
+    login_url = reverse_lazy('login')
     model = Quote
     context_object_name = 'quote_list'
     template_name = 'home.html'
     paginate_by = 10
 
     def get_queryset(self):
-        self.fk_user = self.request.session['username']
-        self.category = self.kwargs['category']
-        if self.category == 'all':
-            return Quote.objects.filter(fk_usr_id=self.fk_user).order_by('-create_time', '-id')
+        fk_user = self.request.user.username
+        category = self.kwargs['category']
+        if category == 'all':
+            return Quote.objects.filter(fk_usr_id=fk_user).order_by('-create_time', '-id')
         else:
-            return Quote.objects.filter(fk_usr_id=self.fk_user,
-                                        category__iexact=self.category).order_by('-create_time', '-id')
+            return Quote.objects.filter(fk_usr_id=fk_user,
+                                        category__iexact=category).order_by('-create_time', '-id')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -35,7 +31,7 @@ class QuotesList(ListView):
 
 def search_results(request):
     search_text = request.GET.get('search_text', None)
-    fk_user = request.session.get('username')
+    fk_user = request.user.username
     body_res = list(Quote.objects.filter(fk_usr_id=fk_user, body__contains=search_text).values_list('body', flat=True).distinct().order_by('body')[:5])
     person_res = list(Quote.objects.filter(fk_usr_id=fk_user, person__contains=search_text).values_list('person', flat=True).distinct().order_by('person')[:5])
     place_res = list(Quote.objects.filter(fk_usr_id=fk_user, place__contains=search_text).values_list('place', flat=True).distinct().order_by('place')[:5])
@@ -54,13 +50,13 @@ class SearchResultsView(ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        self.fk_user = self.request.session['username']
+        fk_user = self.request.user.username
         if self.request.method == 'GET':
             search_text = self.request.GET.get('search-bar')
-            return Quote.objects.filter(Q(fk_usr_id=self.fk_user),
+            return Quote.objects.filter(Q(fk_usr_id=fk_user),
                                         Q(body__contains=search_text) | Q(place__contains=search_text) | Q(place__contains=search_text))
         else:
-            return Quote.objects.filter(fk_usr_id=self.fk_user)
+            return Quote.objects.filter(fk_usr_id=fk_user)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
