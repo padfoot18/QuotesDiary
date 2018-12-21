@@ -23,3 +23,9 @@ class Quote(models.Model):
     category = models.CharField(max_length=20, choices=category_choices)
     fk_usr = models.ForeignKey(User,  on_delete=models.CASCADE)
     create_time = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        if len(self.body) > 40:
+            return self.body[:40]+'...'
+        else:
+            return self.body

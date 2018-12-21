@@ -1,7 +1,8 @@
 {% extends 'index.html' %}
 
 {% block content %}
-  <h2>Sign up</h2>
+<div class="container-fluid" id="my-form">
+  <h2 style="text-align: center">Sign up</h2>
   <form method="post">
     {% csrf_token %}
     {% for field in form %}
@@ -16,6 +17,7 @@
         {% endfor %}
       </p>
     {% endfor %}
-    <button type="submit">Sign up</button>
+    <button type="submit" class="btn btn-primary">Sign up</button>
   </form>
+</div>
 {% endblock %}

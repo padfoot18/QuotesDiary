@@ -1,8 +1,10 @@
 from django.shortcuts import render
 from django.views.generic import CreateView, DeleteView, UpdateView
 from manage_quotes.models import Quote
-from manage_users.models import User
 from django.forms import ModelForm, Textarea, TextInput, Select
+from django.conf import settings
+
+User = settings.AUTH_USER_MODEL
 
 
 class QuoteForm(ModelForm):
@@ -28,7 +30,7 @@ class AddQuote(CreateView):
         return context
 
     def form_valid(self, form):
-        form.instance.fk_usr = User.objects.get(username=self.request.session['username'])
+        form.instance.fk_usr = self.request.user
         return super().form_valid(form)
 
 
