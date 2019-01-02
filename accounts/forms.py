@@ -3,7 +3,6 @@ from django import forms
 from django.utils.translation import gettext, gettext_lazy as _
 from django.conf import settings
 
-
 User = settings.AUTH_USER_MODEL
 
 
@@ -14,3 +13,7 @@ class LoginForm(AuthenticationForm):
         strip=False,
         widget=forms.PasswordInput(attrs={'class': 'form-control'}),
     )
+
+
+class SignupForm(UserCreationForm):
+    pass

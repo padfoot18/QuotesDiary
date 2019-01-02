@@ -19,7 +19,7 @@ class MyLoginView(auth_views.LoginView):
 
 class MySignupView(CreateView):
     model = User
-    form_class = UserCreationForm
+    form_class = SignupForm
     template_name = 'registration/signup.html'
     success_url = '/view/all/'
 
