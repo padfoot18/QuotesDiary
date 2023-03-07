@@ -13,17 +13,17 @@ class MyLoginView(auth_views.LoginView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['local_css'] = ['css/myforms.css']
+        context["local_css"] = ["css/myforms.css"]
         return context
 
 
 class MySignupView(CreateView):
     model = User
     form_class = SignupForm
-    template_name = 'registration/signup.html'
-    success_url = '/view/all/'
+    template_name = "registration/signup.html"
+    success_url = "/view/all/"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['local_css'] = ['css/myforms.css']
+        context["local_css"] = ["css/myforms.css"]
         return context

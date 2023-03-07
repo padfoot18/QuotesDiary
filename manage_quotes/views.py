@@ -10,23 +10,25 @@ User = settings.AUTH_USER_MODEL
 class QuoteForm(ModelForm):
     class Meta:
         model = Quote
-        fields = ['body', 'person', 'place', 'category']
+        fields = ["body", "person", "place", "category"]
         widgets = {
-            'body': Textarea(attrs={'class': 'form-control', 'rows': '5'}),
-            'person': TextInput(attrs={'class': 'form-control'}),
-            'place': TextInput(attrs={'class': 'form-control'}),
-            'category': Select(attrs={'class': 'form-control'}),
+            "body": Textarea(attrs={"class": "form-control", "rows": "5"}),
+            "person": TextInput(attrs={"class": "form-control"}),
+            "place": TextInput(attrs={"class": "form-control"}),
+            "category": Select(attrs={"class": "form-control"}),
         }
 
 
 class AddQuote(CreateView):
     model = Quote
-    success_url = '/view/all'
+    success_url = "/view/all"
     form_class = QuoteForm
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['local_css'] = ['css/myforms.css', ]
+        context["local_css"] = [
+            "css/myforms.css",
+        ]
         return context
 
     def form_valid(self, form):
@@ -36,16 +38,18 @@ class AddQuote(CreateView):
 
 class DeleteQuote(DeleteView):
     model = Quote
-    success_url = '/view/all'
+    success_url = "/view/all"
 
 
 class EditQuote(UpdateView):
     form_class = QuoteForm
     model = Quote
-    template_name = 'manage_quotes/quote_form.html'
-    success_url = '/view/all'
+    template_name = "manage_quotes/quote_form.html"
+    success_url = "/view/all"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['local_css'] = ['css/myforms.css', ]
+        context["local_css"] = [
+            "css/myforms.css",
+        ]
         return context
